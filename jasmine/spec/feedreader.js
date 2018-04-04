@@ -94,7 +94,7 @@ $(function () {
 
         it('has at least an entry element', function (done) {
             expect(feeds.initialComplete).toBe(true);
-            expect($('.entry').length).not.toBeLessThan(1);
+            expect($('.feed .entry').length).not.toBeLessThan(1);
             done();
         });
     });
@@ -115,15 +115,15 @@ $(function () {
                 done();
             });
 
-            this.oldTitle = $('.header-title').html();
-            this.oldFirstEntry = $('.entry h2')[0].innerHTML;
+            oldTitle = $('.header-title').html();
+            oldFirstEntry = $('.entry h2')[0].innerHTML;
             done();
         });
 
         it('has changed an entry element', function (done) {
             feeds.loadFeed(1, function () {
-                expect($('.header-title').html()).not.toBe(this.oldTitle);
-                expect($('.entry h2')[0].innerHTML).not.toBe(this.oldFirstEntry);
+                expect($('.header-title').html()).not.toBe(oldTitle);
+                expect($('.entry h2')[0].innerHTML).not.toBe(oldFirstEntry);
                 done();
             });
         });
