@@ -92,10 +92,9 @@ $(function () {
             });
         });
 
-        it('has at least an entry element', function (done) {
+        it('has at least an entry element', function () {
             expect(feeds.initialComplete).toBe(true);
             expect($('.feed .entry').length).not.toBeLessThan(1);
-            done();
         });
     });
 
@@ -103,8 +102,10 @@ $(function () {
 
     describe('New Feed Selection', function () {
         var feeds = new Feed();
-        var oldTitle;
-        var oldFirstEntry;
+        var prevTitle;
+        var prevFirstEntry;
+        var newTitle;
+        var newFirstEntry;
 
         /* Test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
@@ -112,20 +113,20 @@ $(function () {
          */
         beforeEach(function (done) {
             feeds.loadFeed(0, function () {
-                done();
-            });
+                prevTitle = $('.header-title').html();
+                prevFirstEntry = $('.entry h2').html();
 
-            oldTitle = $('.header-title').html();
-            oldFirstEntry = $('.entry h2')[0].innerHTML;
-            done();
+                feeds.loadFeed(1, function () {
+                    newTitle = $('.header-title').html();
+                    newFirstEntry = $('.entry h2').html();
+                    done();
+                });
+            });
         });
 
-        it('has changed an entry element', function (done) {
-            feeds.loadFeed(1, function () {
-                expect($('.header-title').html()).not.toBe(oldTitle);
-                expect($('.entry h2')[0].innerHTML).not.toBe(oldFirstEntry);
-                done();
-            });
+        it('has changed an entry element', function () {
+            expect(newTitle).not.toBe(prevTitle);
+            expect(newFirstEntry).not.toBe(prevFirstEntry);
         });
     });
 
